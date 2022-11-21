@@ -1,0 +1,54 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 999;
+  padding: 40px 20px 20px;
+  button {
+    padding: 5px;
+    width: 100px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: rgba(173, 169, 169, 0.9);
+  }
+}
+
+.modal-content {
+  width: 60%;
+  height: 60%;
+  background-color: #282c34;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  .input_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    input,
+    select,
+    option {
+      padding: 5px;
+      border-radius: 10px;
+      width: 300px;
+      border: none;
+    }
+  }
+}

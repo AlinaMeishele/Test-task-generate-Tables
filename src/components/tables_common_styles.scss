@@ -1,0 +1,72 @@
+.div_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.companies_table_wrapper {
+  border-spacing: 0px;
+  margin: 50px;
+
+  caption {
+    margin: 10px;
+    text-align: left;
+    button {
+      padding: 5px;
+      background-color: rgb(234, 235, 220);
+      border-radius: 20px;
+      border-color: rgb(234, 235, 220);
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgb(200, 201, 186);
+    }
+  }
+  th,
+  td {
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+  }
+  .del_one_item_wrapper {
+    width: fit-content;
+  }
+
+  th {
+    background-color: rgb(192, 221, 221);
+  }
+
+  td:last-child {
+    background-color: none;
+  }
+  .checked_item {
+    background-color: rgb(217, 222, 226);
+  }
+  .del_one_item {
+    border: none;
+    cursor: pointer;
+    background-color: rgb(235, 194, 194);
+    padding: 2px 5px;
+    border-radius: 30px;
+  }
+  .del_one_item:hover {
+    background-color: rgb(233, 136, 136);
+  }
+}
+
+.modal_opener_button {
+  margin-top: 10px;
+  width: fit-content;
+  padding: 5px;
+  background-color: rgb(234, 235, 220);
+  border-radius: 20px;
+  border-color: rgb(234, 235, 220);
+  border: none;
+  cursor: pointer;
+}
+.modal_opener_button:hover {
+  background-color: rgb(200, 201, 186);
+}
+.visibility {
+  visibility: hidden;
+}

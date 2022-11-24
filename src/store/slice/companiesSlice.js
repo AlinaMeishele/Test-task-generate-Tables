@@ -1,5 +1,8 @@
 /* eslint-disable no-loop-func */
 import { createSlice } from '@reduxjs/toolkit';
+import { addToCheckedList } from '../../helpers/sliceHelpers/changeCheckedList';
+import { handleChangeElemAttribute } from '../../helpers/sliceHelpers/changeElemAttribute';
+import { handleFilter } from '../../helpers/sliceHelpers/filter';
 
 const initialState = {
   allCompanies: [],
@@ -11,32 +14,22 @@ const companiesSlice = createSlice({
   initialState,
   reducers: {
     deleteOneCompany: (state, action) => {
-      state.allCompanies = state.allCompanies.filter(
-        (el) => el.id !== action.payload.id
-      );
+      state.allCompanies = handleFilter(state.allCompanies, action);
     },
     addToCheckedCompanyList: (state, action) => {
-      state.selectedCompany.push(action.payload.company);
+      addToCheckedList(state.selectedCompany, action);
     },
     delFromCheckedCompanyList: (state, action) => {
-      state.selectedCompany = state.selectedCompany.filter(
-        (el) => el.id !== action.payload.id
-      );
+      state.selectedCompany = handleFilter(state.selectedCompany, action);
     },
-    updateCompanyName: (state, action) => {
-      state.allCompanies = state.allCompanies.map((el) =>
-        el.id === action.payload.id ? { ...el, name: action.payload.text } : el
-      );
-    },
-    updateCompanyAdress: (state, action) => {
-      state.allCompanies = state.allCompanies.map((el) =>
-        el.id === action.payload.id
-          ? { ...el, adress: action.payload.text }
-          : el
+    updateCompanyAttribute: (state, action) => {
+      state.allCompanies = handleChangeElemAttribute(
+        state.allCompanies,
+        action
       );
     },
     deleteAllItemsCheckedCopmanies: (state, action) => {
-      state.allCompanies = action.payload.duplic;
+      state.allCompanies = action.payload.newItemList;
       state.selectedCompany = [];
     },
     addNewCompany: (state, action) => {
@@ -55,10 +48,7 @@ export const {
   deleteOneCompany,
   addToCheckedCompanyList,
   delFromCheckedCompanyList,
-  allCompaniesChecked,
-  noCompaniesChecked,
-  updateCompanyName,
-  updateCompanyAdress,
+  updateCompanyAttribute,
   deleteAllItemsCheckedCopmanies,
   addNewCompany,
 } = companiesSlice.actions;

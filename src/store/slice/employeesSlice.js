@@ -2,10 +2,12 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable operator-linebreak */
 import { createSlice } from '@reduxjs/toolkit';
+import { addToCheckedList } from '../../helpers/sliceHelpers/changeCheckedList';
+import { handleChangeElemAttribute } from '../../helpers/sliceHelpers/changeElemAttribute';
+import { handleFilter } from '../../helpers/sliceHelpers/filter';
 
 export const initialState = {
   allEmployees: [],
-  employeesToShow: [],
   selectedEmployees: [],
 };
 
@@ -14,45 +16,26 @@ const employeesSlice = createSlice({
   initialState,
   reducers: {
     deleteOneEmployee: (state, action) => {
-      state.allEmployees = state.allEmployees.filter(
-        (el) => el.id !== action.payload.id
-      );
+      state.allEmployees = handleFilter(state.allEmployees, action);
     },
-    deleteAllEmployeesFromSelectedCompany: (state, action) => {
-      state.allEmployees = state.allEmployees.filter(
-        (el) => el.companyID !== action.payload.id
-      );
-    },
-    updateEmployeeName: (state, action) => {
-      state.allEmployees = state.allEmployees.map((el) =>
-        el.id === action.payload.id ? { ...el, name: action.payload.text } : el
-      );
-    },
-    updateEmployeeSurename: (state, action) => {
-      state.allEmployees = state.allEmployees.map((el) =>
-        el.id === action.payload.id
-          ? { ...el, surename: action.payload.text }
-          : el
-      );
-    },
-    updateEmployeePosition: (state, action) => {
-      state.allEmployees = state.allEmployees.map((el) =>
-        el.id === action.payload.id
-          ? { ...el, position: action.payload.text }
-          : el
+    updateEmployeeAttribute: (state, action) => {
+      state.allEmployees = handleChangeElemAttribute(
+        state.allEmployees,
+        action
       );
     },
     deleteAllItemsCheckedEmployees: (state, action) => {
-      state.allEmployees = action.payload.duplicates;
+      state.allEmployees = action.payload.newItemList;
       state.selectedEmployees = [];
     },
     addToCheckedEmployeeList: (state, action) => {
-      state.selectedEmployees.push(action.payload.employee);
+      addToCheckedList(state.selectedEmployees, action);
     },
     delFromCheckedEmployeeList: (state, action) => {
-      state.selectedEmployees = state.selectedEmployees.filter(
-        (el) => el.id !== action.payload.id
-      );
+      state.selectedEmployees = handleFilter(state.selectedEmployees, action);
+    },
+    deleteAllEmployeesFromSelectedCompany: (state, action) => {
+      state.allEmployees = action.payload.employeesLeft;
     },
     addNewEmployee: (state, action) => {
       const id = `${state.allEmployees.length}-${action.payload.employeeName}-${action.payload.employeeSurename}-${action.payload.employeePosition} `;
@@ -70,13 +53,10 @@ const employeesSlice = createSlice({
 export default employeesSlice.reducer;
 export const {
   deleteOneEmployee,
-  deleteAllEmployeesFromSelectedCompany,
-  showChosenEmployees,
-  updateEmployeeName,
-  updateEmployeeSurename,
-  updateEmployeePosition,
+  updateEmployeeAttribute,
   deleteAllItemsCheckedEmployees,
   addToCheckedEmployeeList,
   delFromCheckedEmployeeList,
+  deleteAllEmployeesFromSelectedCompany,
   addNewEmployee,
 } = employeesSlice.actions;

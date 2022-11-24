@@ -29,7 +29,6 @@ function EmployeesTable() {
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Должность</th>
-                {info.length ? <th> </th> : null}
               </tr>
             </thead>
             <tbody>

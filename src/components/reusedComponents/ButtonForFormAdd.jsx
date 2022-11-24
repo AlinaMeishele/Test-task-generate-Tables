@@ -12,6 +12,11 @@ function ButtonForFormAdd({ status }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [notext, setNoText] = useState(false);
+  const closeModal = () => {
+    setIsOpen(false);
+    setNoText(false);
+  };
+
   const AddNewCompany = (e) => {
     e.preventDefault();
     const companyName = e.target.companyName.value;
@@ -21,9 +26,9 @@ function ButtonForFormAdd({ status }) {
       return;
     }
     dispatch(addNewCompany({ companyName, companyAdress }));
-    setIsOpen(false);
-    setNoText(false);
+    closeModal();
   };
+
   const AddNewEmployee = (e) => {
     e.preventDefault();
     const employeeName = e.target.employeeName.value;
@@ -46,8 +51,7 @@ function ButtonForFormAdd({ status }) {
         companyId,
       })
     );
-    setIsOpen(false);
-    setNoText(false);
+    closeModal();
   };
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment

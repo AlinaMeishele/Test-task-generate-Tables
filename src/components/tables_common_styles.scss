@@ -30,6 +30,11 @@
   }
   .del_one_item_wrapper {
     width: fit-content;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 70px;
+    border: none;
   }
 
   th {

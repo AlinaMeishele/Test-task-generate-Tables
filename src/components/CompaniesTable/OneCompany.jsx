@@ -7,8 +7,7 @@ import {
   deleteOneCompany,
   addToCheckedCompanyList,
   delFromCheckedCompanyList,
-  updateCompanyName,
-  updateCompanyAdress,
+  updateCompanyAttribute,
 } from '../../store/slice/companiesSlice';
 import { ErrorHandler } from '../ErrorHandler/ErrorHandler';
 
@@ -16,37 +15,44 @@ function OneCompany({ company }) {
   const [checked, setChecked] = useState(false);
   const { allEmployees } = useSelector((store) => store.employees);
   const dispatch = useDispatch();
+  const { id } = company;
+  let text;
+  let attribute;
   const DeleteOneCompany = () => {
-    const { id } = company;
-
     dispatch(deleteOneCompany({ id }));
     dispatch(deleteAllEmployeesFromSelectedCompany({ id }));
   };
 
   const ChangeCkeckedItem = () => {
     setChecked((prev) => !prev);
-    const { id } = company;
     if (!checked) {
-      dispatch(addToCheckedCompanyList({ company }));
+      dispatch(addToCheckedCompanyList({ item: company }));
     } else {
       dispatch(delFromCheckedCompanyList({ id }));
     }
   };
   const ChangeCompanyName = (e) => {
-    const text = e.currentTarget.textContent;
-    const { id } = company;
-    dispatch(updateCompanyName({ id, text }));
+    text = e.currentTarget.textContent;
+    attribute = 'name';
+    dispatch(updateCompanyAttribute({ id, text, attribute }));
   };
 
   const ChangeCompanyAdress = (e) => {
-    const text = e.currentTarget.textContent;
-    const { id } = company;
-    dispatch(updateCompanyAdress({ id, text }));
+    text = e.currentTarget.textContent;
+    attribute = 'adress';
+    dispatch(updateCompanyAttribute({ id, text, attribute }));
   };
   ErrorHandler();
   return (
     <tr className={checked ? 'checked_item' : null}>
-      <td>
+      <td className="del_one_item_wrapper">
+        <button
+          type="button"
+          className="del_one_item"
+          onClick={DeleteOneCompany}
+        >
+          X
+        </button>
         <label htmlFor="checked_company">
           <input
             type="checkbox"
@@ -69,16 +75,6 @@ function OneCompany({ company }) {
         suppressContentEditableWarning
       >
         {company.adress}
-      </td>
-      <td className="del_one_item_wrapper">
-        {' '}
-        <button
-          type="button"
-          className="del_one_item"
-          onClick={DeleteOneCompany}
-        >
-          X
-        </button>
       </td>
     </tr>
   );

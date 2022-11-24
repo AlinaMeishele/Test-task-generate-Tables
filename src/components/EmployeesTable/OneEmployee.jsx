@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   deleteOneEmployee,
-  updateEmployeeName,
-  updateEmployeeSurename,
-  updateEmployeePosition,
+  updateEmployeeAttribute,
   addToCheckedEmployeeList,
   delFromCheckedEmployeeList,
 } from '../../store/slice/employeesSlice';
@@ -13,41 +11,53 @@ import { ErrorHandler } from '../ErrorHandler/ErrorHandler';
 function OneEmployee({ employee }) {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
+  const { id } = employee;
+  const currentAttribute = useRef();
+  let text;
+  let attribute;
+
   const DeleteOneEmployee = () => {
-    const { id } = employee;
     dispatch(deleteOneEmployee({ id }));
   };
+
   const ChangeCkeckedItem = () => {
     setChecked((prev) => !prev);
-    const { id } = employee;
     if (!checked) {
-      dispatch(addToCheckedEmployeeList({ employee }));
+      dispatch(addToCheckedEmployeeList({ item: employee }));
     } else {
       dispatch(delFromCheckedEmployeeList({ id }));
     }
   };
 
   const ChangeEmployeeName = (e) => {
-    const text = e.currentTarget.textContent;
-    const { id } = employee;
-    dispatch(updateEmployeeName({ id, text }));
+    text = e.currentTarget.textContent;
+    attribute = 'name';
+    dispatch(updateEmployeeAttribute({ id, text, attribute }));
   };
+
   const ChangeEmployeeSurename = (e) => {
-    const text = e.currentTarget.textContent;
-    const { id } = employee;
-    dispatch(updateEmployeeSurename({ id, text }));
+    text = e.currentTarget.textContent;
+    attribute = 'surename';
+    dispatch(updateEmployeeAttribute({ id, text, attribute }));
   };
 
   const ChangeEmployeePosition = (e) => {
-    const text = e.currentTarget.textContent;
-    const { id } = employee;
-    dispatch(updateEmployeePosition({ id, text }));
+    text = e.currentTarget.textContent;
+    attribute = 'position';
+    dispatch(updateEmployeeAttribute({ id, text, attribute }));
   };
 
   ErrorHandler();
   return (
     <tr className={checked ? 'checked_item' : null}>
-      <td>
+      <td className="del_one_item_wrapper">
+        <button
+          type="button"
+          className="del_one_item"
+          onClick={DeleteOneEmployee}
+        >
+          X
+        </button>
         <label htmlFor="checked_employee">
           <input
             type="checkbox"
@@ -58,6 +68,8 @@ function OneEmployee({ employee }) {
         </label>
       </td>
       <td
+        ref={currentAttribute}
+        id="surename"
         onBlur={ChangeEmployeeSurename}
         contentEditable
         suppressContentEditableWarning
@@ -65,6 +77,8 @@ function OneEmployee({ employee }) {
         {employee.surename}
       </td>
       <td
+        ref={currentAttribute}
+        id="name"
         onBlur={ChangeEmployeeName}
         contentEditable
         suppressContentEditableWarning
@@ -72,21 +86,13 @@ function OneEmployee({ employee }) {
         {employee.name}
       </td>
       <td
+        ref={currentAttribute}
+        id="positon"
         onBlur={ChangeEmployeePosition}
         contentEditable
         suppressContentEditableWarning
       >
         {employee.position}
-      </td>
-      <td className="del_one_item_wrapper">
-        {' '}
-        <button
-          type="button"
-          className="del_one_item"
-          onClick={DeleteOneEmployee}
-        >
-          X
-        </button>
       </td>
     </tr>
   );

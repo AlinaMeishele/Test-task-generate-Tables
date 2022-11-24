@@ -25,7 +25,6 @@ function CompaniesTable() {
             <th>Название компании</th>
             <th>Количество сотрудников</th>
             <th>Адрес</th>
-            {allCompanies.length ? <th> </th> : null}
           </tr>
         </thead>
         <tbody>

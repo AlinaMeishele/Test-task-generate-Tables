@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable import/prefer-default-export */
 import _ from 'lodash';
 
@@ -21,5 +22,15 @@ export const removeDublicates = (newArr, duplicates, all, selected) => {
     }
     duplicates = newArr.filter((e, index, arr) => arr.indexOf(e) !== index);
   }
+  return duplicates;
+};
+
+export const createNewItemList = (all, selected) => {
+  if (!selected.length) {
+    return;
+  }
+  const newEmpl = [];
+  let duplic;
+  const duplicates = removeDublicates(newEmpl, duplic, all, selected);
   return duplicates;
 };

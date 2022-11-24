@@ -4,7 +4,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteAllItemsCheckedCopmanies } from '../../store/slice/companiesSlice';
 import { deleteAllItemsCheckedEmployees } from '../../store/slice/employeesSlice';
-import { removeDublicates } from '../../helpers/RemoveDublicates';
+import { createNewItemList } from '../../helpers/RemoveDublicates';
 
 function ButtonForAllDelete({ status }) {
   const { allEmployees, selectedEmployees } = useSelector(
@@ -14,34 +14,15 @@ function ButtonForAllDelete({ status }) {
     (store) => store.companies
   );
   const dispatch = useDispatch();
+  let newItemList;
   const DeleteAllCompaniesChecked = () => {
-    if (!selectedCompany.length) {
-      return;
-    }
-    const newComp = [];
-    let foundDublic;
-    const duplic = removeDublicates(
-      newComp,
-      foundDublic,
-      allCompanies,
-      selectedCompany
-    );
-    dispatch(deleteAllItemsCheckedCopmanies({ duplic }));
+    newItemList = createNewItemList(allCompanies, selectedCompany);
+    dispatch(deleteAllItemsCheckedCopmanies({ newItemList }));
   };
 
   const DeleteAllEmployeesChecked = () => {
-    if (!selectedEmployees.length) {
-      return;
-    }
-    const newEmpl = [];
-    let duplic;
-    const duplicates = removeDublicates(
-      newEmpl,
-      duplic,
-      allEmployees,
-      selectedEmployees
-    );
-    dispatch(deleteAllItemsCheckedEmployees({ duplicates }));
+    newItemList = createNewItemList(allEmployees, selectedEmployees);
+    dispatch(deleteAllItemsCheckedEmployees({ newItemList }));
   };
   return (
     <div>
